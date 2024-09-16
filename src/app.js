@@ -57,30 +57,91 @@ search.addWidgets([
     widgets: [
       container =>
         instantsearch.widgets.panel({
-          templates: { header: () => 'format' },
+          templates: { header: () => 'Category' },
         })(instantsearch.widgets.refinementList)({
           container,
-          attribute: 'format',
+          attribute: 'categories',
         }),
       container =>
         instantsearch.widgets.panel({
-          templates: { header: () => 'location' },
+          templates: { header: () => 'Brands' },
         })(instantsearch.widgets.refinementList)({
           container,
-          attribute: 'location',
+          attribute: 'brand',
         }),
       container =>
         instantsearch.widgets.panel({
-          templates: { header: () => 'programLevel' },
+          templates: { header: () => 'Type' },
         })(instantsearch.widgets.refinementList)({
           container,
-          attribute: 'programLevel',
+          attribute: 'type',
         }),
+        container =>
+          instantsearch.widgets.panel({
+            templates: { header: () => 'Price Range' },
+          })(instantsearch.widgets.refinementList)({
+            container,
+            attribute: 'price_range',
+          }),
     ],
+  }),
+  instantsearch.widgets.ratingMenu ({
+    container: '#rating-menu',
+    attribute: 'rating',
   }),
   instantsearch.widgets.pagination({
     container: '#pagination',
   }),
+  instantsearch.widgets.stats({
+    container: '#stats',
+    templates: {
+      text(hit, { html }) {
+        return html `
+          <em>
+          <strong>${hit.nbHits}</strong> results found ${' '}
+          ${hit.query != ''
+            ? html`for <strong>"${hit.query}"</strong>`
+            : html``}
+          ${' '} in <strong>${hit.processingTimeMS}ms</strong>
+          </em>`
+      },
+    },
+  }),
+  instantsearch.widgets.clearRefinements({
+    container: '#clear-filters',
+    templates: {
+      text(hit, { html }){
+        return html `
+          <div data-widget="clear-filters" data-layout="desktop">
+            <div class="ais-ClearRefinements">
+              <button class="ais-ClearRefinements-button ais-ClearRefinements-button--disabled" disabled="">
+                <div class="clear-filters">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11">
+                    <g fill="none" fill-rule="evenodd" opacity=".4">
+                      <path d="M0 0h11v11H0z">
+                      </path>
+                      <path fill="#000" fill-rule="nonzero" d="M8.26 2.75a3.896 3.896 0 1 0 1.102 3.262l.007-.056a.49.49 0 0 1 .485-.456c.253 0 .451.206.437.457 0 0 .012-.109-.006.061a4.813 4.813 0 1 1-1.348-3.887v-.987a.458.458 0 1 1 .917.002v2.062a.459.459 0 0 1-.459.459H7.334a.458.458 0 1 1-.002-.917h.928z">
+                      </path>
+                    </g>
+                  </svg>
+                  Clear filters
+                </div>
+              </button>
+            </div>
+          </div>      
+        `
+      }
+    }
+  }),
+  instantsearch.widgets.sortBy ({
+    container: '#sort-by',
+    currentRefinement: "Products",
+    items: [
+      { label: 'Featured', value: 'Products' },
+      { label: 'Lowest Price', value: 'products_price_asc' },
+      { label: 'Highest Price', value: 'products_price_desc' },
+    ],
+  })
 ]);
 
 search.start();
@@ -100,7 +161,7 @@ const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
 
 const querySuggestionsPlugin = createQuerySuggestionsPlugin({
   searchClient,
-  indexName: 'GVSU-Course-Catalog_query_suggestions',
+  indexName: 'Products_query_suggestions',
   getSearchParams() {
     return recentSearchesPlugin.data.getAlgoliaSearchParams({ hitsPerPage: 6 });
   },

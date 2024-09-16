@@ -76,8 +76,18 @@
   padding-right: 16px;
 }
 
+.search-row {
+  margin-bottom: 48px;
+}
+
 #stats {
-  margin-bottom: 2rem;
+  width: "75%";
+  float: left;
+}
+
+#sort-by {
+  width: "25%";
+  float: right;
 }
 
 .ais-Hits {
@@ -85,7 +95,60 @@
   font-size: 0.75rem;
 }
 
+.ais-SortBy, ais-SortBy-select {
+  color: #21243d;
+  font-size: 0.75rem;
+  position: relative;
+}
+
+.ais-SortBy-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  color: #21243d;
+  font-family: inherit;
+}
+
+/* Filters */
+
+.filter-header {
+  min-height: 80px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.clear-filters {
+  align-items: center;
+  display: flex;
+}
+
+.clear-filters svg {
+  margin-right: 8px;
+}
+
+.ais-ClearRefinements {
+    color: #21243d;
+}
+
+.ais-ClearRefinements .ais-ClearRefinements-button {
+  color: #21243d;
+  font-size: 12px;
+}
+
+.ais-ClearRefinements-button--disabled {
+  color: rgba(33, 36, 61, 0.5);
+  font-size: 12px;
+}
+
 /* Hits */
+
+.ais-Hits {
+  clear: both;
+  margin-top: '20px';
+}
 
 .ais-Hits-list {
   display: grid;
@@ -111,7 +174,7 @@
   }
 }
 
-/* Hits */
+/* Product List */
 
 article {
   display: block;
